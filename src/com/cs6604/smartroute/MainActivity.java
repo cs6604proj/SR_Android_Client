@@ -10,10 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,13 +28,13 @@ import android.widget.Toast;
 
 import com.cs6604.adapter.PlacesAutoCompleteAdapter;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
-public class MainActivity extends FragmentActivity  implements OnItemClickListener{
+public class MainActivity extends Activity  implements OnItemClickListener{
 
 	private ArrayList<String> results = new ArrayList<String>();
 	private ArrayAdapter getPlaces;
@@ -41,6 +42,7 @@ public class MainActivity extends FragmentActivity  implements OnItemClickListen
 	private AutoCompleteTextView destAutoComplete;
 	private EditText poiTextView;
 	private GoogleMap map;
+	private MapFragment mapFragment;
 	private Button routeButton;
 	
 	HttpRetriever httpRetriever = new HttpRetriever();
@@ -53,6 +55,16 @@ public class MainActivity extends FragmentActivity  implements OnItemClickListen
         destAutoComplete = (AutoCompleteTextView) findViewById(R.id.dest_autocomplete_textview);
         poiTextView = (EditText) findViewById(R.id.poi_text_view);
         routeButton = (Button) findViewById(R.id.route);
+        
+        mapFragment = MapFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getFragmentManager()
+                .beginTransaction();
+        fragmentTransaction.add(R.id.map, mapFragment);
+        fragmentTransaction.commit();
+
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+                .getMap();
+                
         
         routeButton.setOnClickListener(new OnClickListener(){
 
@@ -67,10 +79,6 @@ public class MainActivity extends FragmentActivity  implements OnItemClickListen
         	
         });
         
-     // Getting reference to SupportMapFragment of the activity_main
-        SupportMapFragment fm = (SupportMapFragment) this.getSupportFragmentManager().findFragmentById(R.id.map);
-        // Getting Map for the SupportMapFragment
-        this.map = fm.getMap();
         // Enable MyLocation Button in the Map
         this.map.setMyLocationEnabled(true);
         
@@ -78,6 +86,7 @@ public class MainActivity extends FragmentActivity  implements OnItemClickListen
         sourceAutoComplete.setAdapter(adpter);
         destAutoComplete.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.list_item));
     }
+    
     
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
