@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<AutoCompleteTextView 
+	    android:id="@+id/source_autocomplete_textview" 
+	    android:layout_width="match_parent" 
+	    android:layout_height="wrap_content" 
+	    android:ems="10" 
+	    android:hint="Where you start">
+        <requestFocus />
+    </AutoCompleteTextView>
+    
+    <EditText 
+        android:id="@+id/poi_text_view" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:ems="10" 
+        android:hint="Point of Interest" />
+    
+    <AutoCompleteTextView 
+        android:id="@+id/dest_autocomplete_textview" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:ems="10" 
+        android:hint="Where you want to go" />
+    
+    <Button 
+        android:id="@+id/route" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:background="@drawable/btnblak" 
+        android:text="Route" 
+        android:textColor="#ffffff" >
+    </Button>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+</LinearLayout>
